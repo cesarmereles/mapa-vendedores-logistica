@@ -1331,10 +1331,12 @@ let fData = null;
 // MAP LAYERS CONFIGURATION (THEMES)
 const MAP_THEMES = {
   dark: L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '© Esri'
+    attribution: '© Esri',
+    maxNativeZoom: 16
   }),
   light: L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '© Esri'
+    attribution: '© Esri',
+    maxNativeZoom: 16
   }),
   satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: '© Esri, Maxar'
