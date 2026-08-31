@@ -394,6 +394,10 @@ html, body {
   background: var(--bg-primary);
 }
 
+#map.dark-tiles .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9);
+}
+
 /* LEAFLET ZOOM CONTROLS REDESIGN */
 .leaflet-bar {
   border: 1px solid var(--border-color) !important;
@@ -1330,13 +1334,11 @@ let fData = null;
 
 // MAP LAYERS CONFIGURATION (THEMES)
 const MAP_THEMES = {
-  dark: L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '© Esri',
-    maxNativeZoom: 16
+  dark: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '© Esri'
   }),
-  light: L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '© Esri',
-    maxNativeZoom: 16
+  light: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '© Esri'
   }),
   satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: '© Esri, Maxar'
@@ -1355,6 +1357,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Set default theme
   MAP_THEMES[currentTheme].addTo(MAP);
+  document.getElementById('map').classList.toggle('dark-tiles', currentTheme === 'dark');
 
   // Position Zoom Control
   L.control.zoom({ position: 'topright' }).addTo(MAP);
@@ -1439,7 +1442,8 @@ function setMapTheme(themeName) {
   
   MAP_THEMES[themeName].addTo(MAP);
   currentTheme = themeName;
-  
+  document.getElementById('map').classList.toggle('dark-tiles', themeName === 'dark');
+
   document.querySelectorAll('.map-theme-btn').forEach(btn => {
     btn.classList.remove('active');
     if (btn.dataset.theme === themeName) {
@@ -1931,6 +1935,7 @@ function ensureMapReady(){
   if (!MAP) {
     MAP = L.map('map', { zoomControl: false, dragging: true, tap: false }).setView([-27.367, -55.896], 13);
     MAP_THEMES[currentTheme].addTo(MAP);
+    document.getElementById('map').classList.toggle('dark-tiles', currentTheme === 'dark');
     L.control.zoom({ position: 'topright' }).addTo(MAP);
   }
   if (!LAY) {
